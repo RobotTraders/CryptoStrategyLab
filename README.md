@@ -10,12 +10,10 @@ Setting up the project:
 > git clone https://github.com/RobotTraders/CryptoStrategyLab.git
 > cd backtest_tools
 
-\
-
 Setting up the virtual environment (highly recommended):
 
-> python -m venv .venv
-> .venv\Scripts\activate
+> python -m venv .venv \
+> .venv\Scripts\activate \
 > pip install -r .\requirements.txt
 
 \
