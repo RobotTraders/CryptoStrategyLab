@@ -8,14 +8,14 @@ _A homemade humble library to create, backtest, analyse and optimise crypto trad
 Setting up the project:
 
 > git clone https://github.com/RobotTraders/CryptoStrategyLab.git \
-> cd CryptoStrategyLab
+> cd CryptoStrategyLab/code
 
 \
 Setting up the virtual environment (highly recommended):
 
 > python -m venv .venv \
 > .venv\Scripts\activate \
-> pip install -r .\requirements.txt
+> pip install -r ..\requirements.txt
 
 \
 ⭐ Strategies
