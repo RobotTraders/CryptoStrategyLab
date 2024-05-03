@@ -1,5 +1,5 @@
 # CryptoStrategyLab
-_A homemade humble library to create, backtest, analyse and optimise crypto trading strategies python_
+_A homemade humble library to create, backtest, analyse and optimise crypto trading strategies in python_
 
 
 \
