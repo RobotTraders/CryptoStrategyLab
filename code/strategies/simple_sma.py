@@ -87,7 +87,7 @@ class Strategy:
                 self.close_trade(time, self.position.sl_price, "SL long")
 
             elif self.position.check_for_liquidation(row):
-                print(f'Your long was liquidated on the {date} (price = {self.position.liquidation_price})')
+                print(f'Your long was liquidated on the {time} (price = {self.position.liquidation_price})')
                 sys.exit()
                 
             elif self.position.check_for_tp(row):
@@ -101,7 +101,7 @@ class Strategy:
                 self.close_trade(time, self.position.sl_price, "SL short")
                 
             elif self.position.check_for_liquidation(row):
-                print(f'Your short was liquidated on the {date} (price = {self.position.liquidation_price})')
+                print(f'Your short was liquidated on the {time} (price = {self.position.liquidation_price})')
                 sys.exit()
 
             elif self.position.check_for_tp(row):
