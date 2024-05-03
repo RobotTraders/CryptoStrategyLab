@@ -184,6 +184,9 @@ class DataManager:
         ohlcv = []
 
         if self.name == 'bitget':
+            if ":" not in symbol:
+                raise ValueError("Bitget Spot data not supported")
+
             while current_date_ms < end_date_ms:
                 fetched_data = self.exchange.fetch_ohlcv(
                     symbol=symbol,
