@@ -7,8 +7,8 @@ _A homemade humble library to create, backtest, analyse and optimise crypto trad
 -------------
 Setting up the project:
 
-> git clone https://github.com/RobotTraders/CryptoStrategyLab.git
-> cd backtest_tools
+> git clone https://github.com/RobotTraders/CryptoStrategyLab.git \
+> cd CryptoStrategyLab
 
 \
 Setting up the virtual environment (highly recommended):
