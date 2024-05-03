@@ -19,9 +19,9 @@ Setting up the virtual environment (highly recommended):
 \
 ⭐ Strategies
 -------------
-**Simple SMA** : a simple template (SMA Crossover + Long/Short Trend Line)
+**Envelope** : homemade strategy, for detailed information on functionality please check this [video](TBA).
 \
-**Envelope** : for detailed information on functionality check this [video](TBA).
+**Simple SMA** : a simple template with sma crossover and long/short sma trend line
 
 
 \
