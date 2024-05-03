@@ -14,8 +14,8 @@ Setting up the project:
 Setting up the virtual environment (highly recommended):
 
 > python -m venv .venv \
-> .venv\Scripts\activate \
-> pip install -r ..\requirements.txt
+> .venv/Scripts/activate \
+> pip install -r ../requirements.txt
 
 \
 ⭐ Strategies
