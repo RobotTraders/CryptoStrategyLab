@@ -99,7 +99,7 @@ class BacktestAnalysis:
         self.time_in_position_ratio = (total_time_in_position.total_seconds() / total_backtest_period.total_seconds())
         self.return_over_max_drawdown = self.roi / abs(self.max_drawdown_equity)
 
-    def plot_equity(self, plot_price: bool = True, path: Optional[str] = None) -> None:
+    def plot_equity(self, path: Optional[str] = None, plot_price: bool = True) -> None:
         plot_equity(self.wallet, plot_price, path)
 
     def plot_drawdown(self, path: Optional[str] = None) -> None:
