@@ -8,9 +8,9 @@ from typing import Optional
 class BacktestAnalysis:
 
     def __init__(self, strategy) -> None:
-        self.data = strategy.data.copy()
-        self.trades = strategy.trades_info.copy()
-        self.wallet = strategy.equity_record.copy()
+        self.data = strategy.data
+        self.trades = strategy.trades_info
+        self.wallet = strategy.equity_record
 
         if self.trades.empty:
             raise ValueError('trades_info is empty, probably need to run the backtest first')
