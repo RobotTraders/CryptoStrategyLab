@@ -14,6 +14,8 @@ class Strategy:
         self.populate_indicators()
         self.set_trade_mode()
         self.good_to_trade = True
+        self.position_was_closed = False
+        self.n_bands_hit = 0
 
     # --- Trade Mode ---
     def set_trade_mode(self):
@@ -70,6 +72,7 @@ class Strategy:
 
     # --- Positions ---
     def evaluate_orders(self, time, row):
+        self.position_was_closed = False
         if not self.good_to_trade:
             if self.last_position_side == 'long' and row["close"] > row["average"]:
                 self.good_to_trade = True
@@ -80,37 +83,45 @@ class Strategy:
             if "price_jump_pct" in self.params and row['open'] <= self.position.open_price * (1 - self.params['price_jump_pct']):
                 self.close_trade(time, row['open'], "CA long")
                 self.good_to_trade = False
-
+                self.n_bands_hit = 0
+                
             elif self.position.check_for_sl(row):
                 self.close_trade(time, self.position.sl_price, "SL long")
                 self.good_to_trade = False
-
+                self.n_bands_hit = 0
+                
             elif self.position.check_for_liquidation(row):
                 print(f"Your long was liquidated on the {time} (price = {self.position.liquidation_price})")
                 sys.exit()
 
             elif row["close_long"]:
                 self.close_trade(time,  row["average"], "Exit long")
+                self.position_was_closed = True
+                self.n_bands_hit = 0
 
         elif self.position.side == "short":
             if "price_jump_pct" in self.params and row['open'] >= self.position.open_price * (1 + self.params['price_jump_pct']):
                 self.close_trade(time, row['open'], "CA short")
                 self.good_to_trade = False
-
+                self.n_bands_hit = 0
+                
             elif self.position.check_for_sl(row):
                 self.close_trade(time, self.position.sl_price, "SL short")
                 self.good_to_trade = False
-
+                self.n_bands_hit = 0
+                
             elif self.position.check_for_liquidation(row):
                 print(f"Your short was liquidated on the {time} (price = {self.position.liquidation_price})")
                 sys.exit()
 
             elif row["close_short"]:
                 self.close_trade(time, row["average"], "Exit short")
+                self.position_was_closed = True
+                self.n_bands_hit = 0
 
-        elif self.good_to_trade and self.position.side is None:
+        if self.good_to_trade and not self.position_was_closed:
             balance = self.balance
-            for i in range(len(self.params["envelopes"])):
+            for i in range(self.n_bands_hit, len(self.params["envelopes"])):
                 if self.position.side != "short" and row[f"open_long_{i + 1}"]:
                     side = "long"
                     price_key = f"band_low_{i + 1}"
@@ -126,12 +137,13 @@ class Strategy:
                 price = row[price_key]
 
                 if 'position_size_percentage' in self.params:  # total wallet fraction position size
-                    initial_margin = balance * self.params['position_size_percentage'] / 100 / len(self.params["envelopes"])
+                    initial_margin = balance * round(self.params['position_size_percentage'] / 100 / len(self.params["envelopes"]), 4)
 
                 elif 'position_size_fixed_amount' in self.params:  # fixed amount position size
-                    initial_margin = self.params['position_size_fixed_amount'] / len(self.params["envelopes"])
+                    initial_margin = round(self.params['position_size_fixed_amount'] / len(self.params["envelopes"]), 4)
 
                 self.balance -= initial_margin
+                self.n_bands_hit += 1
 
                 if i == 0:
                     self.position.open(
@@ -154,6 +166,7 @@ class Strategy:
         trade_info = self.position.info()
         trade_info["open_balance"] = open_balance
         trade_info["close_balance"] = self.balance
+        del trade_info["tp_price"]
         self.trades_info.append(trade_info)
 
     # --- Backtest ---
@@ -161,7 +174,8 @@ class Strategy:
         self.initial_balance = initial_balance
         self.balance = initial_balance
         self.position = ut.Position(leverage=leverage, open_fee_rate=open_fee_rate, close_fee_rate=close_fee_rate)
-        self.equity_update_interval = pd.Timedelta(days=1)
+        self.equity_update_interval = pd.Timedelta(hours=6)
+
         self.previous_equity_update_time = datetime(1900, 1, 1)
         self.trades_info = []
         self.equity_record = []
