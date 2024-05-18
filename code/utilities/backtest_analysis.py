@@ -8,9 +8,9 @@ from typing import Optional
 class BacktestAnalysis:
 
     def __init__(self, strategy) -> None:
-        self.data = strategy.data
-        self.trades = strategy.trades_info
-        self.wallet = strategy.equity_record
+        self.data = strategy.data.copy()
+        self.trades = strategy.trades_info.copy()
+        self.wallet = strategy.equity_record.copy()
 
         if self.trades.empty:
             raise ValueError('trades_info is empty, probably need to run the backtest first')
@@ -105,7 +105,7 @@ class BacktestAnalysis:
     def plot_drawdown(self, path: Optional[str] = None) -> None:
         plot_drawdown(self.wallet, path)
 
-    def plot_monthly_performance(self, year: str = "all", path: Optional[str] = None) -> None:
+    def plot_monthly_performance(self, path: Optional[str] = None, year: str = "all") -> None:
         if year == "all":
             years = self.wallet.index.year.unique()
             for yr in years:
@@ -132,7 +132,8 @@ class BacktestAnalysis:
 
         print("\n--- Health ---", file=result_io)
         print(f"Win rate: {round(self.global_win_rate * 100, 2)} %", file=result_io)
-        print(f"Max equity drawdown: -{round(self.max_drawdown_equity * 100, 2)} %", file=result_io)
+        print(f"Max drawdown at trade close: -{round(self.max_drawdown_trades * 100, 2)} %", file=result_io)
+        print(f"Max drawdown at equity update: -{round(self.max_drawdown_equity * 100, 2)} %", file=result_io)
         print(f"Profit factor: {round(self.profit_factor, 2)}", file=result_io)
         print(f"Return over max drawdown: {round(self.return_over_max_drawdown, 2)}", file=result_io)
         print(f"Sharpe ratio: {round(self.sharpe_ratio, 2)}", file=result_io)
@@ -141,7 +142,6 @@ class BacktestAnalysis:
 
         print("\n--- Trades ---", file=result_io)
         print(f"Average net PnL: {round(self.avg_pnl_pct, 2)} %", file=result_io)
-        print(f"Max trades drawdown: -{round(self.max_drawdown_trades * 100, 2)} %", file=result_io)
         print(f"Average trades per day: {round(self.mean_trades_per_day, 3)}", file=result_io)
         print(f"Average trades duration: {self.mean_trade_duration}", file=result_io)
         print(
