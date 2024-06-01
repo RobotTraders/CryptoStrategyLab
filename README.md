@@ -20,7 +20,7 @@ Setting up the virtual environment (highly recommended):
 \
 ⭐ Strategies
 -------------
-**Envelope** : homemade strategy, for detailed information on functionality please check this [video](TBA).
+**Envelope** : for detailed information on functionality please check this [article](https://robottraders.io/blog/envelope-trading-bot).
 \
 **Simple SMA** : a simple template with sma crossover and long/short sma trend line
 
