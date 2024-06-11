@@ -15,6 +15,10 @@ EXCHANGES: Dict[str, Dict[str, Any]] = {
         "exchange_object": ccxt.binance(config={'enableRateLimit': True}),
         "limit_size_request": 1000,
     },
+    "binanceusdm": {
+        "exchange_object": ccxt.binanceusdm(config={'enableRateLimit': True}),
+        "limit_size_request": 1000
+    },
 }
 
 # Dictionary  supported timeframes
