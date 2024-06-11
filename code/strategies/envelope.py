@@ -46,7 +46,7 @@ class Strategy:
         elif "WMA" == self.params["average_type"]:
             self.data["average"] = ta.trend.wma_indicator(self.data["close"], window=self.params["average_period"]).shift(1)
         else:
-            raise ValueError(f"The average type {self.params["average_type"]} is not supported")
+            raise ValueError(f"The average type {self.params['average_type']} is not supported")
 
         for i, e in enumerate(self.params["envelopes"]):
             self.data[f"band_high_{i + 1}"] = self.data["average"] / (1 - e)
