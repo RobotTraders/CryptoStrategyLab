@@ -32,6 +32,8 @@ class BacktestAnalysis:
         if self.good_trades.empty:
             print("/!\\ No winning trades were found !")
             self.total_good_trades = 0
+            self.avg_pnl_pct_good_trades = 0
+            self.mean_good_trades_duration = 0
         else:
             self.total_good_trades = len(self.good_trades)
             self.avg_pnl_pct_good_trades = self.good_trades["net_pnl_pct"].mean()
@@ -41,6 +43,8 @@ class BacktestAnalysis:
         if self.bad_trades.empty:
             print("/!\\ No losing trades were found !")
             self.total_bad_trades = 0
+            self.avg_pnl_pct_bad_trades = 0
+            self.mean_bad_trades_duration = 0
         else:
             self.total_bad_trades = len(self.bad_trades)
             self.avg_pnl_pct_bad_trades = self.bad_trades["net_pnl_pct"].mean()
