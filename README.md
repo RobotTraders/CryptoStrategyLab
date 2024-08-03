@@ -24,6 +24,11 @@ Setting up the virtual environment (highly recommended):
 \
 **Simple SMA** : a simple template with sma crossover and long/short sma trend line
 
+\
+📃 License
+-------------
+This project is licensed under the [GNU General Public License](LICENSE) - see the LICENSE file for details.
+
 
 \
 ⚠️ Disclaimer
