@@ -16,6 +16,7 @@ class Strategy:
         self.good_to_trade = True
         self.position_was_closed = False
         self.n_bands_hit = 0
+        self.last_position_side = None
 
     # --- Trade Mode ---
     def set_trade_mode(self):
@@ -122,11 +123,11 @@ class Strategy:
         if self.good_to_trade and not self.position_was_closed:
             balance = self.balance
             for i in range(self.n_bands_hit, len(self.params["envelopes"])):
-                if self.position.side != "short" and row[f"open_long_{i + 1}"]:
+                if not self.ignore_longs and self.position.side != "short" and row[f"open_long_{i + 1}"]:
                     side = "long"
                     price_key = f"band_low_{i + 1}"
                     sl_price_calc = self.calculate_long_sl_price
-                elif self.position.side != "long" and row[f"open_short_{i + 1}"]:
+                elif not self.ignore_shorts and self.position.side != "long" and row[f"open_short_{i + 1}"]:
                     side = "short"
                     price_key = f"band_high_{i + 1}"
                     sl_price_calc = self.calculate_short_sl_price
