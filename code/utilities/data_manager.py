@@ -199,6 +199,7 @@ class DataManager:
                     params={
                         "method": "publicMixGetV2MixMarketHistoryCandles",
                         "until": current_date_ms + TIMEFRAMES[timeframe]["interval_ms"] * EXCHANGES[self.name]["limit_size_request"],
+                        "useHistoryEndpoint": True,
                     }
                 )
 
